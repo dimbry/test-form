@@ -1,0 +1,13 @@
+@import '../base/vars';
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+body {
+  background-color: $c-white;
+  color: $c-black;
+  font-family: $f-sans-serif;
+}
