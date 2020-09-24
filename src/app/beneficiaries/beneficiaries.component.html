@@ -9,9 +9,8 @@
   <form [formGroup]="beneficiaryForm" class="mt-3" (ngSubmit)="submitBeneficiaries()">
     <div 
       formArrayName="beneficiaries"
-      *ngFor="let beneficiary of beneficiariesControls; let i = index;">
-      <div [formGroupName]="i">
-        <div class="row">
+      *ngFor="let beneficiary of beneficiariesFormArray.controls; let i = index;">
+        <div class="row" [formGroupName]="i">
           <div class="col-2">
             <div class="form-group">
               <label>
@@ -21,7 +20,7 @@
                 type="text" 
                 class="form-control" 
                 formControlName="fullName"
-                placeholder="Full name">
+                placeholder="John Doe">
             </div>
           </div>
           <div class="col-2">
@@ -32,21 +31,27 @@
               <input 
                 type="text" 
                 class="form-control" 
+                mask="M0/d0/0000"
+                [validation]="true"
                 formControlName="birthday"
-                placeholder="Enter email">
+                placeholder="MM/DD/YYYY">
             </div>
           </div>
           <div class="col-1">
-            <div class="form-group">
-              <select 
-                fromControlName="type" 
-                class="form-control">
-                <option value="SSN">SSN</option>
-              </select>
+            <div class="form-group no-label">
+              <ng-select 
+                [items]="typesList"
+                bindLabel="name"
+                [(ngModel)]="selectedType[i]"
+                [clearable]="false" 
+                [multiple]="false"
+                [searchable]="false"
+                formControlName="type">
+              </ng-select>
             </div>
           </div>
-          <div class="col-1">
-            <div class="form-group">
+          <div class="col-2">
+            <div class="form-group no-label">
               <input
                type="text"
                class="form-control"
@@ -54,23 +59,30 @@
                placeholder="Optional">
             </div>
           </div>
-          <div class="col-1">
+          <div class="col-2">
             <div class="form-group">
               <label>Relationship</label>
-              <select 
-                formControlName="relationship"
-                class="form-control">
-                <option value="trust">Trust</option>
-              </select>
+              <ng-select 
+                [items]="relationshipList"
+                bindLabel="name"
+                [clearable]="false" 
+                placeholder="Select"
+                [multiple]="false"
+                [searchable]="false"
+                [(ngModel)]="selectedRelationship[i]"
+                formControlName="relationship">
+                 <ng-template ng-option-tmp let-item="item" let-index="index">
+                      <span class="ng-value-label">{{ item.name }}</span>
+                 </ng-template>
+              </ng-select>
             </div>
           </div>
           <div class="col-1">
-            <div class="form-group">
-              <input 
+            <div class="form-group no-label">
+              <input
                 formControlName="percentage"
+                placeholder="0"
                 type="number"
-                min="1"
-                max="100"
                 class="form-control">
             </div>
           </div>
@@ -79,17 +91,33 @@
               type="button" 
               class="btn btn-primary"
               (click)="removeBeneficiary(i)">X</button>
-            <button 
-              type="button" 
-              class="btn btn-primary"
-              (click)="addBeneficiary()">OK</button>
+            <div class="form-check">
+              <input 
+                class="form-check-input" 
+                type="checkbox" 
+                value="true"
+                *ngIf="beneficiariesFormArray.controls[i].valid && beneficiariesFormArray.controls[i].value.beneficiarySubmitted !== true"
+                (change)="addBeneficiary()"
+                formControlName="beneficiarySubmitted">
+            </div>
           </div>
         </div>
-      </div>
     </div>
   </form>
+  <div class="primary-total">
+    <span>
+      Primary total:
+    </span>
+    <span>
+      {{ percentageSummary + tempPercentageValue +'%' }}
+    </span>
+  </div>
 </div>
 
-<button type="button" class="btn btn-primary">
+<button 
+  type="button" 
+  class="btn btn-primary"
+  (click)="submitBeneficiaries()"
+  [disabled]="!beneficiaryForm.disabled || percentageSummary !== 100">
   Next
 </button>

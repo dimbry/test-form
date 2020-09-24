@@ -1,0 +1,21 @@
+@import '../../styles/base/vars';
+
+
+:host {
+  .no-label {
+    margin-top: 2rem;
+  }
+}
+
+::ng-deep .ng-select {
+  &.ng-touched.ng-invalid {
+    .ng-select-container {
+      border-color: $c-red; 
+
+      &:focus {
+        box-shadow: 0 0 0 0.2rem rgb(255 0 0 / 25%);
+      }
+    }
+
+  }
+}
