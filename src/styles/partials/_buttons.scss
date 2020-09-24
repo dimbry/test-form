@@ -1,0 +1,35 @@
+@import '../base/vars';
+
+.btn-delete {
+  border: 0;
+  outline: 0;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  line-height: 1;
+  background-color: transparent;
+  background-image: url('/../assets/icons/cancel.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+
+}
+
+.btn {
+  &.btn-primary {
+    background-color: $c-blue !important;
+    border-color: $c-blue !important;
+
+    border-radius: 5px !important;
+    font-size: 13px;
+    padding: 4px 40px !important;
+
+    &:focus {
+      box-shadow: none !important;
+    }
+
+    &[disabled] {
+      background-color: #C9C9C9 !important;
+      border-color: #C9C9C9 !important;
+    }
+  }
+}

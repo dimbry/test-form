@@ -1,3 +1,40 @@
-<div class="container">
-  <router-outlet></router-outlet>
+<div class="header"></div>
+<div class="wrapper">
+  <ul class="menu-list">
+    <li class="menu-item done">
+      <span>
+        Personal Information
+      </span>
+    </li>
+    <li class="menu-item done">
+      <span>
+        Contact information
+      </span>
+    </li>
+    <li class="menu-item done">
+      <span>
+        Relationship
+      </span>
+    </li>
+    <li class="menu-item" [routerLink]="['/']" routerLinkActive="active">
+      <span>
+        Beneficiaries
+      </span>
+    </li>
+    <li class="menu-item next">
+      <span>
+        Account Characteristics
+      </span>
+    </li>
+    <li class="menu-item next">
+      <span>
+        Review
+      </span>
+    </li>
+  </ul>
+  <div class="content">
+    <div class="container">
+      <router-outlet></router-outlet>
+    </div>    
+  </div>
 </div>

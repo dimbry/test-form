@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, FormArray, Validators } from '@angular/forms';
+import { Beneficiary, BeneficiaryType, BeneficiaryRelationship } from '../shared/models/Beneficiary';
 
 @Component({
   selector: 'app-beneficiaries',
@@ -12,11 +13,11 @@ export class BeneficiariesComponent implements OnInit {
   beneficiaries: FormArray;
   percentageSummary: number = 0;
   tempPercentageValue: number = 0;
-  typesList: any = [
+  typesList: BeneficiaryType[] = [
     { id: 0, name: 'SSN' }
   ];
   selectedType: any = [this.typesList[0]];
-  relationshipList: any = [
+  relationshipList: BeneficiaryRelationship[] = [
     { id: 0, name: 'Trust' }
   ];
   selectedRelationship: any = [undefined];
@@ -69,7 +70,7 @@ export class BeneficiariesComponent implements OnInit {
   }
 
 
-  disableControl(control, value) {
+  disableControl(control, value: Beneficiary) {
     control.get('fullName').reset({ value: value.fullName, disabled: true });
     control.get('birthday').reset({ value: value.birthday, disabled: true });
     control.get('type').reset({ value: value.type, disabled: true });
@@ -117,7 +118,6 @@ export class BeneficiariesComponent implements OnInit {
   percentageValidation() {
     return (formControl: FormControl) => {
       let valid: boolean = true;
-      console.log('percentage validation', formControl.value);
 
       // DON'T VALIDATE IF AMOUNT OF BENEFICIARIES IS AT MAXIMUM AND 100% NOT ACHIEVED
       if (this.beneficiaries) {
@@ -145,7 +145,7 @@ export class BeneficiariesComponent implements OnInit {
     }
 
     if (summaryCount < 100) {
-      // add selects values for ngModel
+      // add values for ngModel of ng-selects
       this.selectedType.push(this.typesList[0]);
       this.selectedRelationship.push(undefined);
       
@@ -159,15 +159,21 @@ export class BeneficiariesComponent implements OnInit {
   }
 
   removeBeneficiary(index: number) {
-    const percentageToRemove = this.beneficiaries.controls[index].value.percentage;
-    const beneficiariesAmount = this.beneficiaries.length;
+    const percentageToRemove = this.percentageSummary ? this.beneficiaries.controls[index].value.percentage : 0;
+    let beneficiaries: FormArray;
+    if (!this.beneficiaries) {
+      beneficiaries = this.beneficiariesFormArray;
+    } else {
+      beneficiaries = this.beneficiaries;
+    }
+    const beneficiariesAmount = beneficiaries.controls.length;
 
     if (beneficiariesAmount == 1) {
-      this.resetControl(this.beneficiaries.controls[0]);
+      this.resetControl(beneficiaries.controls[0]);
       this.resetPercentages();
     } else if(this.percentageSummary == 100 && beneficiariesAmount > 1) {
       this.percentageSummary -= percentageToRemove;
-      this.resetControl(this.beneficiaries.controls[this.beneficiaries.length - 1]);
+      this.resetControl(beneficiaries.controls[beneficiaries.length - 1]);
     } else {
       this.percentageSummary -= percentageToRemove;
       this.beneficiaries.removeAt(index);

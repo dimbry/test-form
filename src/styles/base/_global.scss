@@ -3,6 +3,7 @@
 * {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
 }
 
 
@@ -10,10 +11,14 @@ body {
   background-color: $c-white;
   color: $c-black;
   font-family: $f-sans-serif;
+  min-height: 100vh;
+  min-width: 1280px;
 }
 
 .container {
   max-width: 1200px !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
 }
 
 
