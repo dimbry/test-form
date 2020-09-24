@@ -92,11 +92,11 @@
           </div>
           <div class="submit-destroy-buttons">
             <div class="btn-wrapper btn-delete-wrapper">
-              <button 
+              <div
               type="button" 
               class="btn-delete"
               *ngIf="!(beneficiariesFormArray.controls.length == 1 && beneficiariesFormArray.controls[i].invalid)"
-              (click)="removeBeneficiary(i)"></button>
+              (click)="removeBeneficiary(i)"></div>
             </div>
             <div class="btn-wrapper btn-submit-wrapper">
               <div class="submit-checkbox" *ngIf="beneficiariesFormArray.controls[i].valid && beneficiariesFormArray.controls[i].value.beneficiarySubmitted !== true">

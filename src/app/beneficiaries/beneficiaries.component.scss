@@ -6,6 +6,10 @@
     margin-top: 2rem;
   }
 
+  .form-wrapper {
+    margin-bottom: 20px;
+  }
+
   .row-wrapper {
     position: relative;
     transition: 0.25s opacity;
@@ -30,13 +34,11 @@
       .btn-wrapper {
         display: inline-block;
         vertical-align: middle;
+        height: 24px;
 
         &.btn-delete-wrapper {
-          margin-right: 5px;
-        }
 
-        &.btn-submit-wrapper {
-          vertical-align: top;
+          margin-right: 5px;
         }
       }
 

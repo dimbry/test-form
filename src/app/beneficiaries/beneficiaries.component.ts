@@ -159,6 +159,8 @@ export class BeneficiariesComponent implements OnInit {
   }
 
   removeBeneficiary(index: number) {
+
+    //need to refactor
     const percentageToRemove = this.percentageSummary ? this.beneficiaries.controls[index].value.percentage : 0;
     let beneficiaries: FormArray;
     if (!this.beneficiaries) {
@@ -170,10 +172,15 @@ export class BeneficiariesComponent implements OnInit {
 
     if (beneficiariesAmount == 1) {
       this.resetControl(beneficiaries.controls[0]);
+      this.selectedRelationship[0] = undefined;
       this.resetPercentages();
     } else if(this.percentageSummary == 100 && beneficiariesAmount > 1) {
       this.percentageSummary -= percentageToRemove;
       this.resetControl(beneficiaries.controls[beneficiaries.length - 1]);
+    } else if(beneficiariesAmount === index + 1) {
+      this.resetControl(beneficiaries.controls[index]);
+      this.selectedRelationship[index] = undefined;
+      this.tempPercentageValue = 0;
     } else {
       this.percentageSummary -= percentageToRemove;
       this.beneficiaries.removeAt(index);
